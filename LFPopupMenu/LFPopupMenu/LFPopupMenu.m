@@ -291,18 +291,4 @@
     return _maskView;
 }
 
-- (void)setNeedShadow:(BOOL)needShadow {
-    _needShadow = needShadow;
-    if (_needShadow) {
-        self.layer.shadowColor = [UIColor blackColor].CGColor;//shadowColor阴影颜色
-        self.layer.shadowOffset = CGSizeMake(0,0);
-        self.layer.shadowOpacity = 0.15;//阴影透明度，默认0
-        self.layer.shadowRadius = 2;//阴影半径
-    } else {
-        self.layer.shadowColor = [UIColor clearColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(0,0);
-    }
-}
-
-
 @end

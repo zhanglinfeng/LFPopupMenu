@@ -29,7 +29,9 @@
 //加阴影的弹窗
 - (IBAction)action1:(id)sender {
     LFPopupMenu *optionsView = [[LFPopupMenu alloc] init];
-    optionsView.needShadow = YES;
+    optionsView.layer.shadowColor = [UIColor blackColor].CGColor;
+    optionsView.layer.shadowOffset = CGSizeMake(2, 2);
+    optionsView.layer.shadowOpacity = 0.5;
     NSArray *images = @[[UIImage imageNamed:@"el_icon_menu_record_normal"],[UIImage imageNamed:@"el_icon_menu_shoot_normal"],[UIImage imageNamed:@"el_icon_menu_album_normal"]];
     [optionsView configWithTitles:@[@"小视频",@"拍照",@"相册"]
                            images:images
@@ -43,8 +45,10 @@
 //自定义背景图的弹窗
 - (IBAction)action2:(UIButton *)sender {
     LFPopupMenu *optionsView = [[LFPopupMenu alloc] init];
+    optionsView.layer.shadowColor = [UIColor blackColor].CGColor;
+    optionsView.layer.shadowOffset = CGSizeMake(2, 2);
+    optionsView.layer.shadowOpacity = 0.5;
     optionsView.imgBG = [[UIImage imageNamed:@"el_img_menu_frame_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20) resizingMode:UIImageResizingModeStretch];;
-    optionsView.needShadow = YES;
     NSArray *images = @[[UIImage imageNamed:@"el_icon_menu_record_normal"],[UIImage imageNamed:@"el_icon_menu_shoot_normal"],[UIImage imageNamed:@"el_icon_menu_album_normal"]];
     [optionsView configWithTitles:@[@"小视频",@"拍照",@"相册"]
                            images:images
@@ -86,8 +90,10 @@
 //阴影+边框的弹窗
 - (IBAction)action5:(id)sender {
     LFPopupMenu *optionsView = [[LFPopupMenu alloc] init];
+    optionsView.layer.shadowColor = [UIColor blackColor].CGColor;
+    optionsView.layer.shadowOffset = CGSizeMake(2, 2);
+    optionsView.layer.shadowOpacity = 0.5;
     optionsView.needBorder = YES;
-    optionsView.needShadow = YES;
     NSArray *images = @[[UIImage imageNamed:@"el_icon_menu_record_normal"],[UIImage imageNamed:@"el_icon_menu_shoot_normal"],[UIImage imageNamed:@"el_icon_menu_album_normal"]];
     [optionsView configWithTitles:@[@"小视频",@"拍照",@"相册"]
                            images:images
@@ -102,6 +108,7 @@
 - (IBAction)action6:(id)sender {
     LFPopupMenu *optionsView = [[LFPopupMenu alloc] init];
     optionsView.needBorder = YES;
+    optionsView.lineColor = [UIColor redColor];
     optionsView.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     NSArray *images = @[[UIImage imageNamed:@"el_icon_menu_record_normal"],[UIImage imageNamed:@"el_icon_menu_shoot_normal"],[UIImage imageNamed:@"el_icon_menu_album_normal"]];
     [optionsView configWithTitles:@[@"小视频",@"拍照",@"相册"]

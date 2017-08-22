@@ -23,7 +23,6 @@
 @property (nonatomic, strong) UIColor *lineColor;//分割线颜色，默认系统灰色
 @property (nonatomic, strong) UIFont *textFont;//默认15
 @property (nonatomic, strong) UIColor *textColor;//默认黑色
-@property (nonatomic, assign) BOOL needShadow;//是否要阴影，默认NO。如果设yes，会设置个默认阴影，也可自行设置阴影效果
 @property (nonatomic, assign) BOOL needBorder;//是否要边框
 
 
