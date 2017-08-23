@@ -63,13 +63,39 @@
                                     <action selector="action6:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GYC-zB-RRa"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7k8-ed-6dR">
+                                <rect key="frame" x="164" y="131" width="46" height="30"/>
+                                <state key="normal" title="仅图标"/>
+                                <connections>
+                                    <action selector="action7:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dQo-fF-7T4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xfy-2H-O3Q">
+                                <rect key="frame" x="164" y="294" width="46" height="30"/>
+                                <state key="normal" title="仅文字"/>
+                                <connections>
+                                    <action selector="action8:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dUT-ZG-X1A"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOx-48-6mC">
+                                <rect key="frame" x="164" y="359" width="62" height="30"/>
+                                <state key="normal" title="黑底白字"/>
+                                <connections>
+                                    <action selector="action9:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V9B-Mm-5n5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="irD-d8-ojh" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="29" id="0Eb-CZ-9QH"/>
+                            <constraint firstItem="Xfy-2H-O3Q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="164" id="7km-bQ-KZ0"/>
+                            <constraint firstItem="EOx-48-6mC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="164" id="8EW-C8-CrZ"/>
+                            <constraint firstItem="Xfy-2H-O3Q" firstAttribute="top" secondItem="7k8-ed-6dR" secondAttribute="bottom" constant="133" id="Dcg-da-4Vj"/>
                             <constraint firstAttribute="trailing" secondItem="irD-d8-ojh" secondAttribute="trailing" constant="41" id="JCG-Vb-swh"/>
                             <constraint firstAttribute="trailing" secondItem="Z1L-S3-bHW" secondAttribute="trailing" constant="10" id="LV9-SG-3xe"/>
+                            <constraint firstItem="7k8-ed-6dR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="164" id="MBB-1n-J0x"/>
                             <constraint firstItem="Z1L-S3-bHW" firstAttribute="top" secondItem="irD-d8-ojh" secondAttribute="bottom" constant="246" id="UYP-Hl-BHv"/>
+                            <constraint firstItem="EOx-48-6mC" firstAttribute="top" secondItem="Xfy-2H-O3Q" secondAttribute="bottom" constant="35" id="XFp-3x-Whf"/>
                             <constraint firstItem="i7R-in-Wz6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="29" id="XNs-um-rXC"/>
                             <constraint firstItem="i7R-in-Wz6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="axN-HL-3pC"/>
                             <constraint firstItem="QMQ-SI-nA2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="5" id="ihc-qg-MHM"/>
@@ -78,6 +104,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3xC-6t-8Rb" secondAttribute="bottom" constant="39" id="lTL-XI-RQX"/>
                             <constraint firstAttribute="trailing" secondItem="56R-fN-Wwf" secondAttribute="trailing" constant="16" id="nPZ-ED-Avf"/>
                             <constraint firstItem="3xC-6t-8Rb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="15" id="nfU-ph-QxW"/>
+                            <constraint firstItem="7k8-ed-6dR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="111" id="pE8-OH-2uq"/>
                         </constraints>
                     </view>
                 </viewController>

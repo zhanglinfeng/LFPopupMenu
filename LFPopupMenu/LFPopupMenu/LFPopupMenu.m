@@ -8,12 +8,25 @@
 
 #import "LFPopupMenu.h"
 
+@implementation LFPopupMenuItem
+
++ (LFPopupMenuItem *)createWithTitle:(NSString *)title image:(UIImage *)image {
+    LFPopupMenuItem *item = [[LFPopupMenuItem alloc] init];
+    item.title = title;
+    item.image = image;
+    return item;
+}
+
+@end
+
+
+
 @interface LFPopupMenu ()
 
 @property (nonatomic, strong) UIImageView *ivBG;
 @property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, strong) NSArray *images;
+@property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic, assign) BOOL isUp;
 @property (nonatomic, copy) void(^action)(NSInteger index);
 
 @end
@@ -28,21 +41,21 @@
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = NO;
         self.rowHeight = 60;
-        self.triangleH = 9;
-        self.triangleW = 9;
+        self.arrowH = 9;
+        self.arrowW = 9;
         self.popupMargin = 5;
         self.iconMargin = 16;
         self.cornerRadius = 6;
         self.lineColor = [UIColor grayColor];
         self.textFont = [UIFont systemFontOfSize:15];
         self.textColor = [UIColor blackColor];
+        self.fillColor = [UIColor whiteColor];
     }
     return self;
 }
 
-- (void)configWithTitles:(NSArray *)titles images:(NSArray *)images action:(void(^)(NSInteger index))action {
-    self.titles = titles;
-    self.images = images;
+- (void)configWithItems:(NSArray<LFPopupMenuItem *>*)items action:(void(^)(NSInteger index))action {
+    self.menuItems = items;
     self.action = action;
     [self adjustMaxWidth];
     [self initUI];
@@ -55,21 +68,22 @@
         [self addSubview:self.ivBG];
     }
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.triangleH, self.frame.size.width, self.frame.size.height - self.triangleH)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.arrowH, self.frame.size.width, self.frame.size.height - self.arrowH)];
     self.contentView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.contentView];
     
-    for (NSInteger i = 0; i < self.titles.count; i++) {
-        UIImage *image = self.images[i];
-        CGFloat imgH = image.size.height;
-        CGFloat imgW = image.size.width;
+    for (NSInteger i = 0; i < self.menuItems.count; i++) {
+        LFPopupMenuItem *item = self.menuItems[i];
+        CGFloat imgH = item.image.size.height;
+        CGFloat imgW = item.image.size.width;
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(self.iconMargin, (self.rowHeight - imgH)/2 + self.rowHeight*i, imgW, imgH)];
-        iv.image = image;
+        iv.image = item.image;
         [self.contentView addSubview:iv];
         
-        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(self.iconMargin*2 + imgW, i*self.rowHeight, self.frame.size.width - (self.iconMargin*3 + imgW), self.rowHeight)];
-        lb.textColor = [UIColor blackColor];
-        lb.text = self.titles[i];
+        CGFloat lbX = imgW > 0 ? (self.iconMargin*2 + imgW) : self.iconMargin;
+        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(lbX, i*self.rowHeight, self.frame.size.width - lbX - self.iconMargin, self.rowHeight)];
+        lb.textColor = self.textColor;
+        lb.text = item.title;
         lb.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:lb];
         
@@ -99,6 +113,7 @@
 
 #pragma mark - 公有方法
 
+//显示菜单窗,有imgBG的情况下调用
 - (void)showInPoint:(CGPoint)point {
     [self addToWindow];
     
@@ -118,14 +133,62 @@
     }];
 }
 
-- (void)showTriangleInPoint:(CGPoint)point {
+//显示菜单窗,无imgBG的情况下调用
+//之所以提取一个private_showArrowInPoint，是不想让showArrowInView调showArrowInPoint时，在showArrowInPoint方法中又给isUp赋值了，因为可能两次次判断得到的isUp结果不一致（比如当你的箭头指向的那个view与上下中线有交集时，两次给isUp赋值会不同）
+- (void)showArrowInPoint:(CGPoint)point {
+    self.isUp = point.y < self.maskView.frame.size.height/2;
+    [self private_showArrowInPoint:point];
+}
+
+//显示菜单窗,无imgBG的情况下调用
+- (void)showArrowInView:(UIView*)view {
+    CGRect pointViewRect = [view.superview convertRect:view.frame toView:[UIApplication sharedApplication].keyWindow];
+    // 弹窗箭头指向的点
+    CGPoint toPoint = CGPointMake(CGRectGetMidX(pointViewRect), 0);
+    self.isUp = CGRectGetMidY(pointViewRect) < [UIApplication sharedApplication].keyWindow.frame.size.height/2;
+    if (self.isUp) {
+        toPoint.y = CGRectGetMaxY(pointViewRect) + 2;
+    } else {
+        toPoint.y = CGRectGetMinY(pointViewRect) - 2;
+    }
+    [self private_showArrowInPoint:toPoint];
+}
+
+- (void)dismiss {
+    [self removeFromSuperview];
+    [self.maskView removeFromSuperview];
+}
+
+#pragma mark - 私有方法
+//根据字数调整最大宽度
+- (void)adjustMaxWidth {
+    CGFloat textW = 0.0;
+    CGFloat imageW = 0.0;
+    for (NSInteger i = 0; i < self.menuItems.count; i++) {
+        LFPopupMenuItem *item = self.menuItems[i];
+        NSStringDrawingOptions opts = NSStringDrawingTruncatesLastVisibleLine |NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading;
+        CGRect rect = [item.title boundingRectWithSize:CGSizeZero
+                                         options:opts
+                                      attributes:@{NSFontAttributeName: self.textFont}
+                                         context:nil];
+        
+        textW = textW > rect.size.width ? textW : rect.size.width;
+        
+        
+        imageW = imageW > item.image.size.width ? imageW : item.image.size.width;
+    }
+    CGFloat totalMargin = (textW > 0 && imageW > 0) ? self.iconMargin * 3 : self.iconMargin * 2;
+    self.frame = CGRectMake(0, 0, textW + imageW + totalMargin, self.rowHeight * self.menuItems.count + self.arrowH);
+}
+
+//私有的显示
+- (void)private_showArrowInPoint:(CGPoint)point {
     [self addToWindow];
     CGFloat popupX;//窗口x
     CGFloat popupY;//窗口y
-    BOOL isUp = point.y < self.maskView.frame.size.height/2;
     
     // 如果箭头指向的点过于偏左或者过于偏右则需要重新调整箭头 x 轴的坐标
-    CGFloat minHorizontalEdge = self.popupMargin + self.cornerRadius + self.triangleW/2;
+    CGFloat minHorizontalEdge = self.popupMargin + self.cornerRadius + self.arrowW/2;
     if (point.x < minHorizontalEdge) {
         point.x = minHorizontalEdge;
     }
@@ -133,7 +196,6 @@
     if (point.x > self.maskView.frame.size.width - minHorizontalEdge) {
         point.x = self.maskView.frame.size.width - minHorizontalEdge;
     }
-    
     
     popupX = point.x - self.frame.size.width/2;
     popupY = point.y;
@@ -145,19 +207,19 @@
     if (self.maskView.frame.size.width - point.x <= self.frame.size.width/2 + self.popupMargin) {
         popupX = self.maskView.frame.size.width - self.popupMargin - self.frame.size.width;
     }
-    //三角向下
-    if (!isUp) {
+    //箭头向下
+    if (!self.isUp) {
         popupY = point.y - self.frame.size.height;
-        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.triangleH);
+        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.arrowH);
     }
     
     self.frame = CGRectMake(popupX, popupY, self.frame.size.width, self.frame.size.height);
     
-    // 三角相对本窗口的坐标
-    CGPoint trianglePoint = CGPointMake(point.x - CGRectGetMinX(self.frame), isUp ? 0 : self.frame.size.height);
+    // 箭头相对本窗口的坐标
+    CGPoint arrowPoint = CGPointMake(point.x - CGRectGetMinX(self.frame), self.isUp ? 0 : self.frame.size.height);
     
-    CGFloat maskTop = isUp ? self.triangleH : 0; // 顶部Y值
-    CGFloat maskBottom = isUp ? self.frame.size.height : self.frame.size.height - self.triangleH; // 底部Y值
+    CGFloat maskTop = self.isUp ? self.arrowH : 0; // 顶部Y值
+    CGFloat maskBottom = self.isUp ? self.frame.size.height : self.frame.size.height - self.arrowH; // 底部Y值
     UIBezierPath *maskPath = [UIBezierPath bezierPath];
     // 左上圆角
     [maskPath moveToPoint:CGPointMake(0, self.cornerRadius + maskTop)];
@@ -166,15 +228,15 @@
                     startAngle:M_PI
                       endAngle:1.5*M_PI
                      clockwise:YES];
-    // 三角朝上
-    if (isUp) {
-        [maskPath addLineToPoint:CGPointMake(trianglePoint.x - self.triangleW/2, self.triangleH)];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x - self.triangleCornerRadius, self.triangleCornerRadius)
-                         controlPoint:CGPointMake(trianglePoint.x - self.triangleW/2 + self.triangleCornerRadius, self.triangleH)];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x + self.triangleCornerRadius, self.triangleCornerRadius)
-                         controlPoint:trianglePoint];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x + self.triangleW/2, self.triangleH)
-                         controlPoint:CGPointMake(trianglePoint.x + self.triangleW/2 - self.triangleCornerRadius, self.triangleH)];
+    // 箭头朝上
+    if (self.isUp) {
+        [maskPath addLineToPoint:CGPointMake(arrowPoint.x - self.arrowW/2, self.arrowH)];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x - self.arrowCornerRadius, self.arrowCornerRadius)
+                         controlPoint:CGPointMake(arrowPoint.x - self.arrowW/2 + self.arrowCornerRadius, self.arrowH)];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x + self.arrowCornerRadius, self.arrowCornerRadius)
+                         controlPoint:arrowPoint];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x + self.arrowW/2, self.arrowH)
+                         controlPoint:CGPointMake(arrowPoint.x + self.arrowW/2 - self.arrowCornerRadius, self.arrowH)];
     }
     // 右上圆角
     [maskPath addLineToPoint:CGPointMake(self.frame.size.width - self.cornerRadius, maskTop)];
@@ -190,15 +252,15 @@
                     startAngle:0
                       endAngle:0.5*M_PI
                      clockwise:YES];
-    // 三角朝下
-    if (!isUp) {
-        [maskPath addLineToPoint:CGPointMake(trianglePoint.x + self.triangleW/2, self.frame.size.height - self.triangleH)];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x + self.triangleCornerRadius, self.frame.size.height - self.triangleCornerRadius)
-                         controlPoint:CGPointMake(trianglePoint.x + self.triangleW/2 - self.triangleCornerRadius, self.frame.size.height - self.triangleH)];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x - self.triangleCornerRadius, self.frame.size.height - self.triangleCornerRadius)
-                         controlPoint:trianglePoint];
-        [maskPath addQuadCurveToPoint:CGPointMake(trianglePoint.x - self.triangleW/2, self.frame.size.height - self.triangleH)
-                         controlPoint:CGPointMake(trianglePoint.x - self.triangleW/2 + self.triangleCornerRadius, self.frame.size.height - self.triangleH)];
+    // 箭头朝下
+    if (!self.isUp) {
+        [maskPath addLineToPoint:CGPointMake(arrowPoint.x + self.arrowW/2, self.frame.size.height - self.arrowH)];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x + self.arrowCornerRadius, self.frame.size.height - self.arrowCornerRadius)
+                         controlPoint:CGPointMake(arrowPoint.x + self.arrowW/2 - self.arrowCornerRadius, self.frame.size.height - self.arrowH)];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x - self.arrowCornerRadius, self.frame.size.height - self.arrowCornerRadius)
+                         controlPoint:arrowPoint];
+        [maskPath addQuadCurveToPoint:CGPointMake(arrowPoint.x - self.arrowW/2, self.frame.size.height - self.arrowH)
+                         controlPoint:CGPointMake(arrowPoint.x - self.arrowW/2 + self.arrowCornerRadius, self.frame.size.height - self.arrowH)];
     }
     // 左下圆角
     [maskPath addLineToPoint:CGPointMake(self.cornerRadius, maskBottom)];
@@ -208,63 +270,25 @@
                       endAngle:M_PI
                      clockwise:YES];
     [maskPath closePath];
-
+    
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     shapeLayer.frame = self.bounds;
     shapeLayer.path = maskPath.CGPath;
     shapeLayer.lineWidth = 1/[UIScreen mainScreen].scale;
-    shapeLayer.fillColor = [UIColor whiteColor].CGColor;
+    shapeLayer.fillColor = self.fillColor.CGColor;
     shapeLayer.strokeColor = self.needBorder ? self.lineColor.CGColor : [UIColor clearColor].CGColor;
     [self.layer insertSublayer:shapeLayer atIndex:0];
     
     // 弹出动画
     self.maskView.alpha = 0;
     CGRect oldFrame = self.frame;
-    self.layer.anchorPoint = CGPointMake(trianglePoint.x/self.frame.size.width, isUp ? 0.f : 1.f);
+    self.layer.anchorPoint = CGPointMake(arrowPoint.x/self.frame.size.width, self.isUp ? 0.f : 1.f);
     self.frame = oldFrame;
     self.transform = CGAffineTransformMakeScale(0.01f, 0.01f);
     [UIView animateWithDuration:0.25f animations:^{
         self.transform = CGAffineTransformIdentity;
         self.maskView.alpha = 1.f;
     }];
-}
-
-- (void)showTriangleInView:(UIView*)view {
-    CGRect pointViewRect = [view.superview convertRect:view.frame toView:[UIApplication sharedApplication].keyWindow];
-    // 弹窗箭头指向的点
-    CGPoint toPoint = CGPointMake(CGRectGetMidX(pointViewRect), 0);
-    if (CGRectGetMidY(pointViewRect) < [UIApplication sharedApplication].keyWindow.frame.size.height/2) {
-        toPoint.y = CGRectGetMaxY(pointViewRect) + 2;
-    } else {
-        toPoint.y = CGRectGetMinY(pointViewRect) - 2;
-    }
-    [self showTriangleInPoint:toPoint];
-}
-
-- (void)dismiss {
-    [self removeFromSuperview];
-    [self.maskView removeFromSuperview];
-}
-
-#pragma mark - 私有方法
-//根据字数调整最大宽度
-- (void)adjustMaxWidth {
-    CGFloat textW = 0.0;
-    CGFloat imageW = 0.0;
-    for (NSInteger i = 0; i < self.titles.count; i++) {
-        NSString *title = self.titles[i];
-        NSStringDrawingOptions opts = NSStringDrawingTruncatesLastVisibleLine |NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading;
-        CGRect rect = [title boundingRectWithSize:CGSizeZero
-                                         options:opts
-                                      attributes:@{NSFontAttributeName: self.textFont}
-                                         context:nil];
-        
-        textW = textW > rect.size.width ? textW : rect.size.width;
-        
-        UIImage *image = self.images[i];
-        imageW = imageW > image.size.width ? imageW : image.size.width;
-    }
-    self.frame = CGRectMake(0, 0, textW + imageW + self.iconMargin * 3, self.rowHeight * self.titles.count + self.triangleH);
 }
 
 //将maskView和popup加到window上
