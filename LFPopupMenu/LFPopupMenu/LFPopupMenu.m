@@ -50,7 +50,7 @@
         self.textColor = [UIColor blackColor];
         self.fillColor = [UIColor whiteColor];
         
-        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.arrowH, self.frame.size.width, self.frame.size.height - self.arrowH)];
+        self.containerView = [[UIView alloc] init];
         self.containerView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.containerView];
     }
