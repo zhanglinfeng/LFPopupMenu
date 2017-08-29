@@ -24,7 +24,6 @@
 @interface LFPopupMenu ()
 
 @property (nonatomic, strong) UIImageView *ivBG;
-@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) NSArray *menuItems;
 @property (nonatomic, assign) BOOL isUp;
 @property (nonatomic, copy) void(^action)(NSInteger index);
@@ -50,6 +49,10 @@
         self.textFont = [UIFont systemFontOfSize:15];
         self.textColor = [UIColor blackColor];
         self.fillColor = [UIColor whiteColor];
+        
+        self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.arrowH, self.frame.size.width, self.frame.size.height - self.arrowH)];
+        self.containerView.backgroundColor = [UIColor clearColor];
+        [self addSubview:self.containerView];
     }
     return self;
 }
@@ -58,19 +61,12 @@
     self.menuItems = items;
     self.action = action;
     [self adjustMaxWidth];
-    [self initUI];
-}
-
-- (void)initUI {
+    
     if (self.imgBG) {
         self.ivBG = [[UIImageView alloc] initWithFrame:self.bounds];
         self.ivBG.image = self.imgBG;
-        [self addSubview:self.ivBG];
+        [self insertSubview:self.ivBG atIndex:0];
     }
-    
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.arrowH, self.frame.size.width, self.frame.size.height - self.arrowH)];
-    self.contentView.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.contentView];
     
     for (NSInteger i = 0; i < self.menuItems.count; i++) {
         LFPopupMenuItem *item = self.menuItems[i];
@@ -78,28 +74,36 @@
         CGFloat imgW = item.image.size.width;
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(self.iconMargin, (self.rowHeight - imgH)/2 + self.rowHeight*i, imgW, imgH)];
         iv.image = item.image;
-        [self.contentView addSubview:iv];
+        [self.containerView addSubview:iv];
         
         CGFloat lbX = imgW > 0 ? (self.iconMargin*2 + imgW) : self.iconMargin;
         UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(lbX, i*self.rowHeight, self.frame.size.width - lbX - self.iconMargin, self.rowHeight)];
         lb.textColor = self.textColor;
         lb.text = item.title;
         lb.font = [UIFont systemFontOfSize:15];
-        [self.contentView addSubview:lb];
+        [self.containerView addSubview:lb];
         
         UIButton *bt = [[UIButton alloc] initWithFrame:CGRectMake(0, i*self.rowHeight, self.frame.size.width, self.rowHeight)];
         bt.backgroundColor = [UIColor clearColor];
         bt.tag = i;
         [bt addTarget:self action:@selector(selectItem:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:bt];
+        [self.containerView addSubview:bt];
         
         if (i > 0) {
             UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, i*self.rowHeight, self.frame.size.width, 1.0f/[UIScreen mainScreen].scale)];
             viewLine.backgroundColor = self.lineColor;
-            [self.contentView addSubview:viewLine];
+            [self.containerView addSubview:viewLine];
         }
     }
 }
+
+/**完全自定义菜单弹窗*/
+- (void)configWithCustomView:(UIView *)customView{
+    self.containerView.frame = CGRectMake(self.containerView.frame.origin.x, self.containerView.frame.origin.y, customView.frame.size.width, customView.frame.size.height);
+    self.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height + self.arrowH);
+    [self.containerView addSubview:customView];
+}
+
 
 #pragma mark - Action
 
@@ -210,7 +214,7 @@
     //箭头向下
     if (!self.isUp) {
         popupY = point.y - self.frame.size.height;
-        self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.arrowH);
+        self.containerView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.arrowH);
     }
     
     self.frame = CGRectMake(popupX, popupY, self.frame.size.width, self.frame.size.height);

@@ -26,6 +26,7 @@
 /*******下面全是可选属性，都有默认值**********/
 @property (nonatomic, strong) UIView *maskView;//半透明遮罩层,默认透明，可自行设置
 @property (nonatomic, strong) UIImage *imgBG;//背景图，设置了这个就不用画带箭头的框了。
+@property (nonatomic, strong) UIView *containerView;//容器，用于自定义弹窗内视图
 @property (nonatomic, assign) CGFloat rowHeight;//行高,默认60
 @property (nonatomic, assign) CGFloat arrowH;//箭头形高,默认9
 @property (nonatomic, assign) CGFloat arrowW;//箭头形宽,默认9
@@ -48,6 +49,8 @@
  */
 - (void)configWithItems:(NSArray<LFPopupMenuItem *>*)items action:(void(^)(NSInteger index))action;
 
+/**完全自定义菜单弹窗*/
+- (void)configWithCustomView:(UIView *)customView;
 
 /**
  显示菜单窗，有imgBG的情况下调用

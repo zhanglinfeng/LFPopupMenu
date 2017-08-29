@@ -40,7 +40,7 @@
     menu.layer.shadowOpacity = 0.5;
     [menu configWithItems:self.items
                            action:^(NSInteger index) {
-                               NSLog(@"点击了第%li个",index);
+                               NSLog(@"点击了第%zi个",index);
                            }];
     
     [menu showArrowInView:sender];
@@ -55,7 +55,7 @@
     menu.imgBG = [[UIImage imageNamed:@"img_menu_frame_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20) resizingMode:UIImageResizingModeStretch];;
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     
     [menu showInPoint:CGPointMake(CGRectGetMidX(sender.frame) - (menu.frame.size.width - 12), CGRectGetMaxY(sender.frame))];
@@ -67,7 +67,7 @@
     menu.needBorder = YES;
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     [menu showArrowInView:sender];
 }
@@ -78,7 +78,7 @@
     menu.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     
     [menu showArrowInView:sender];
@@ -93,7 +93,7 @@
     menu.needBorder = YES;
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     [menu showArrowInView:sender];
 }
@@ -106,7 +106,7 @@
     menu.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     
     [menu showArrowInView:sender];
@@ -122,7 +122,7 @@
     menu.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     [menu configWithItems:items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     
     [menu showArrowInView:sender];
@@ -138,7 +138,7 @@
     menu.maskView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     [menu configWithItems:items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     
     [menu showArrowInView:sender];
@@ -152,9 +152,36 @@
     menu.lineColor = [UIColor lightGrayColor];
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
-                              NSLog(@"点击了第%li个",index);
+                              NSLog(@"点击了第%zi个",index);
                           }];
     [menu showArrowInView:sender];
+}
+- (IBAction)action10:(id)sender {
+    UIView *customView = [self getCustomView];
+    LFPopupMenu *menu = [[LFPopupMenu alloc] init];
+    menu.fillColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    [menu configWithCustomView:customView];
+    [menu showArrowInView:sender];
+    
+}
+
+- (UIView *)getCustomView {
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
+    customView.backgroundColor = [UIColor clearColor];
+    
+    UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
+    lb.text = @"Label";
+    [customView addSubview:lb];
+    
+    UIButton *bt = [UIButton buttonWithType:UIButtonTypeSystem];
+    bt.frame = CGRectMake(110, 0, 90, 30);
+    [bt setTitle:@"button" forState:UIControlStateNormal];
+    [customView addSubview:bt];
+    
+    UISlider *sd = [[UISlider alloc] initWithFrame:CGRectMake(40, 60, 120, 30)];
+    [customView addSubview:sd];
+    
+    return customView;
 }
 
 @end
