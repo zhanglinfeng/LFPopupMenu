@@ -61,7 +61,7 @@
     self.menuItems = items;
     self.action = action;
     [self adjustMaxWidth];
-    
+    self.containerView.frame = CGRectMake(0, self.arrowH, self.frame.size.width, self.frame.size.height - self.arrowH);
     if (self.imgBG) {
         self.ivBG = [[UIImageView alloc] initWithFrame:self.bounds];
         self.ivBG.image = self.imgBG;
