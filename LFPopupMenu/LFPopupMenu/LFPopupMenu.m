@@ -102,6 +102,11 @@
     self.containerView.frame = CGRectMake(self.containerView.frame.origin.x, self.containerView.frame.origin.y, customView.frame.size.width, customView.frame.size.height);
     self.frame = CGRectMake(0, 0, self.containerView.frame.size.width, self.containerView.frame.size.height + self.arrowH);
     [self.containerView addSubview:customView];
+    if (self.imgBG) {
+        self.ivBG = [[UIImageView alloc] initWithFrame:self.bounds];
+        self.ivBG.image = self.imgBG;
+        [self insertSubview:self.ivBG atIndex:0];
+    }
 }
 
 

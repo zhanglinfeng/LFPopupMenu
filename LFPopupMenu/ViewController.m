@@ -172,12 +172,22 @@
                           }];
     [menu showArrowInView:sender];
 }
-- (IBAction)action10:(id)sender {
+- (IBAction)action10:(UIButton *)sender {
     UIView *customView = [self getCustomView];
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.fillColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     [menu configWithCustomView:customView];
     [menu showArrowInView:sender];
+    
+    
+    
+//    UIView *customView = [self getCustomView];
+//    LFPopupMenu *menu = [[LFPopupMenu alloc] init];
+//    menu.fillColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+//    menu.imgBG = [[UIImage imageNamed:@"img_menu_frame_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20) resizingMode:UIImageResizingModeStretch];
+//    menu.anchorPoint = CGPointMake(0.1, 1);
+//    [menu configWithCustomView:customView];
+//    [menu showInPoint:CGPointMake(CGRectGetMidX(sender.frame) - 12, CGRectGetMinY(sender.frame) - menu.frame.size.height)];
     
 }
 
