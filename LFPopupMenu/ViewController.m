@@ -52,6 +52,7 @@
     menu.layer.shadowColor = [UIColor blackColor].CGColor;
     menu.layer.shadowOffset = CGSizeMake(2, 2);
     menu.layer.shadowOpacity = 0.5;
+    menu.anchorPoint = CGPointMake(0.9, 0);
     menu.imgBG = [[UIImage imageNamed:@"img_menu_frame_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20) resizingMode:UIImageResizingModeStretch];;
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
@@ -85,7 +86,7 @@
 }
 
 //阴影+边框的弹窗
-- (IBAction)action5:(id)sender {
+- (IBAction)action5:(UIButton *)sender {
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.layer.shadowColor = [UIColor blackColor].CGColor;
     menu.layer.shadowOffset = CGSizeMake(2, 2);
@@ -96,6 +97,21 @@
                               NSLog(@"点击了第%zi个",index);
                           }];
     [menu showArrowInView:sender];
+    
+    
+//    LFPopupMenu *menu = [[LFPopupMenu alloc] init];
+//    menu.layer.shadowColor = [UIColor blackColor].CGColor;
+//    menu.layer.shadowOffset = CGSizeMake(2, 2);
+//    menu.layer.shadowOpacity = 0.5;
+//    menu.anchorPoint = CGPointMake(0.9, 0);
+//    menu.imgBG = [[UIImage imageNamed:@"img_menu_frame_bg2"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20) resizingMode:UIImageResizingModeStretch];;
+//    menu.anchorPoint = CGPointMake(0.1, 1);
+//    [menu configWithItems:self.items
+//                   action:^(NSInteger index) {
+//                       NSLog(@"点击了第%zi个",index);
+//                   }];
+//    
+//    [menu showInPoint:CGPointMake(CGRectGetMidX(sender.frame) - 12, CGRectGetMinY(sender.frame) - menu.frame.size.height)];
 }
 
 //边框+遮罩的弹窗

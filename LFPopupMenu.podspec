@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'LFPopupMenu'
-s.version = '1.1.3'
+s.version = '1.1.4'
 s.license = { :type => "MIT", :file => "LICENSE" }
 s.summary = '带箭头的弹出菜单窗，样式灵活，使用简单'
 s.homepage = 'https://github.com/zhanglinfeng/LFPopupMenu'

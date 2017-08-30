@@ -39,7 +39,7 @@
 @property (nonatomic, strong) UIColor *textColor;//默认黑色
 @property (nonatomic, strong) UIColor *fillColor;//带箭头框的填充色，默认白色
 @property (nonatomic, assign) BOOL needBorder;//是否要边框
-
+@property (nonatomic, assign) CGPoint anchorPoint;//设置背景图的情况使用，背景图的三角在背景图的位置比例，如左上角(0,0),右下角(1,1),下边中间(0.5,1)以此类推
 
 /**
  配置选项，注意：设置上面属性之后调用

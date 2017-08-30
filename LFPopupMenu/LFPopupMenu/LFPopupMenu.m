@@ -121,14 +121,14 @@
 - (void)showInPoint:(CGPoint)point {
     [self addToWindow];
     
-    BOOL isUp = point.y < self.maskView.frame.size.height/2;
-    BOOL isLeft = (point.x + self.frame.size.width/2) < self.maskView.frame.size.width/2;
-    
     self.frame = CGRectMake(point.x, point.y, self.frame.size.width, self.frame.size.height);
+    if (self.anchorPoint.y > 0.5) {
+        self.containerView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.arrowH);
+    }
     // 弹出动画
     self.maskView.alpha = 0;
     CGRect oldFrame = self.frame;
-    self.layer.anchorPoint = CGPointMake(isLeft ? 0 : 1, isUp ? 0.f : 1.f);
+    self.layer.anchorPoint = self.anchorPoint;
     self.frame = oldFrame;
     self.transform = CGAffineTransformMakeScale(0.01f, 0.01f);
     [UIView animateWithDuration:0.25f animations:^{
