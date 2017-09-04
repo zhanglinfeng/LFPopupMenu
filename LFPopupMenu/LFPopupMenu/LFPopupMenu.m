@@ -50,6 +50,8 @@
         self.textColor = [UIColor blackColor];
         self.fillColor = [UIColor whiteColor];
         
+        self.menuSuperView = [UIApplication sharedApplication].keyWindow;
+        
         self.containerView = [[UIView alloc] init];
         self.containerView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.containerView];
@@ -150,11 +152,11 @@
 }
 
 //显示菜单窗,无imgBG的情况下调用
-- (void)showArrowInView:(UIView*)view {
-    CGRect pointViewRect = [view.superview convertRect:view.frame toView:[UIApplication sharedApplication].keyWindow];
+- (void)showArrowToView:(UIView*)view {
+    CGRect pointViewRect = [view.superview convertRect:view.frame toView:self.menuSuperView];
     // 弹窗箭头指向的点
     CGPoint toPoint = CGPointMake(CGRectGetMidX(pointViewRect), 0);
-    self.isUp = CGRectGetMidY(pointViewRect) < [UIApplication sharedApplication].keyWindow.frame.size.height/2;
+    self.isUp = CGRectGetMidY(pointViewRect) < self.menuSuperView.frame.size.height/2;
     if (self.isUp) {
         toPoint.y = CGRectGetMaxY(pointViewRect) + 2;
     } else {
@@ -302,9 +304,8 @@
 
 //将maskView和popup加到window上
 - (void)addToWindow {
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    self.maskView.frame = window.bounds;
-    [window addSubview:self.maskView];
+    self.maskView.frame = self.menuSuperView.bounds;
+    [self.menuSuperView addSubview:self.maskView];
     
     //点击手势
     UITapGestureRecognizer *tapGestureRecognizer =
@@ -312,7 +313,7 @@
     tapGestureRecognizer.cancelsTouchesInView = NO;//为yes只响应优先级最高的事件，Button高于手势，textfield高于手势，textview高于手势，手势高于tableview。为no同时都响应，默认为yes
     [self.maskView addGestureRecognizer:tapGestureRecognizer];
     
-    [window addSubview:self];
+    [self.menuSuperView addSubview:self];
 }
 
 #pragma mark - Property

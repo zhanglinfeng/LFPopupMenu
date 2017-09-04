@@ -41,6 +41,8 @@
 @property (nonatomic, assign) BOOL needBorder;//是否要边框
 @property (nonatomic, assign) CGPoint anchorPoint;//设置背景图的情况使用，背景图的三角在背景图的位置比例，如左上角(0,0),右下角(1,1),下边中间(0.5,1)以此类推
 
+@property (nonatomic, strong) UIView *menuSuperView;//本菜单弹窗的父视图，默认在Window上
+
 /**
  配置选项，注意：设置上面属性之后调用
  
@@ -70,7 +72,7 @@
 
  @param view 箭头对准的view
  */
-- (void)showArrowInView:(UIView*)view;
+- (void)showArrowToView:(UIView*)view;
 
 - (void)dismiss;
 

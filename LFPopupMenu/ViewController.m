@@ -12,6 +12,7 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) NSArray *items;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
 
 @end
 
@@ -43,7 +44,7 @@
                                NSLog(@"点击了第%zi个",index);
                            }];
     
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //自定义背景图的弹窗
@@ -70,7 +71,7 @@
                           action:^(NSInteger index) {
                               NSLog(@"点击了第%zi个",index);
                           }];
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //加遮罩的弹窗
@@ -82,7 +83,7 @@
                               NSLog(@"点击了第%zi个",index);
                           }];
     
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //阴影+边框的弹窗
@@ -96,7 +97,7 @@
                           action:^(NSInteger index) {
                               NSLog(@"点击了第%zi个",index);
                           }];
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
     
     
 //    LFPopupMenu *menu = [[LFPopupMenu alloc] init];
@@ -125,7 +126,7 @@
                               NSLog(@"点击了第%zi个",index);
                           }];
     
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //仅图片
@@ -141,7 +142,7 @@
                               NSLog(@"点击了第%zi个",index);
                           }];
     
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //仅文字
@@ -157,7 +158,7 @@
                               NSLog(@"点击了第%zi个",index);
                           }];
     
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 
 //黑底白字
@@ -170,14 +171,14 @@
                           action:^(NSInteger index) {
                               NSLog(@"点击了第%zi个",index);
                           }];
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
 }
 - (IBAction)action10:(UIButton *)sender {
     UIView *customView = [self getCustomView];
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.fillColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     [menu configWithCustomView:customView];
-    [menu showArrowInView:sender];
+    [menu showArrowToView:sender];
     
     
     
