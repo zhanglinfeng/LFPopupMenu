@@ -170,8 +170,8 @@
     if (self.dismissComplete) {
         self.dismissComplete();
     }
-    [self removeFromSuperview];
     [self.maskView removeFromSuperview];
+    [self removeFromSuperview];
 }
 
 #pragma mark - 私有方法

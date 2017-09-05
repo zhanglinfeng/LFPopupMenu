@@ -220,6 +220,7 @@
 				TargetAttributes = {
 					D103EA1E1F49A51E003E424F = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = PW34BQUQU8;
 						ProvisioningStyle = Automatic;
 					};
 					D103EA371F49A51E003E424F = {
@@ -440,7 +441,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PW34BQUQU8;
 				INFOPLIST_FILE = LFPopupMenu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zlf.LFPopupMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -451,7 +454,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PW34BQUQU8;
 				INFOPLIST_FILE = LFPopupMenu/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zlf.LFPopupMenu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -523,6 +528,7 @@
 				D103EA4E1F49A51E003E424F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D103EA4F1F49A51E003E424F /* Build configuration list for PBXNativeTarget "LFPopupMenuTests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +537,7 @@
 				D103EA511F49A51E003E424F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D103EA521F49A51E003E424F /* Build configuration list for PBXNativeTarget "LFPopupMenuUITests" */ = {
 			isa = XCConfigurationList;
@@ -539,6 +546,7 @@
 				D103EA541F49A51E003E424F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
