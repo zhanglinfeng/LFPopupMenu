@@ -67,6 +67,9 @@
 - (IBAction)action3:(id)sender {
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.needBorder = YES;
+    menu.dismissComplete = ^{
+        NSLog(@"消失了");
+    };
     [menu configWithItems:self.items
                           action:^(NSInteger index) {
                               NSLog(@"点击了第%zi个",index);

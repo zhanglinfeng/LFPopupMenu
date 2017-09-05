@@ -44,6 +44,8 @@
 
 @property (nonatomic, strong) UIView *menuSuperView;//本菜单弹窗的父视图，默认在Window上
 
+@property (nonatomic, copy) void(^dismissComplete)();//消失的回调
+
 /**
  配置选项，注意：设置上面属性之后调用
  

@@ -167,6 +167,9 @@
 }
 
 - (void)dismiss {
+    if (self.dismissComplete) {
+        self.dismissComplete();
+    }
     [self removeFromSuperview];
     [self.maskView removeFromSuperview];
 }
