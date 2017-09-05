@@ -93,7 +93,7 @@
         [self.containerView addSubview:bt];
         
         if (i > 0) {
-            UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(self.lineMargin, i*self.rowHeight, self.frame.size.width, 1.0f/[UIScreen mainScreen].scale)];
+            UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(self.lineMargin, i*self.rowHeight, self.frame.size.width - self.lineMargin, 1.0f/[UIScreen mainScreen].scale)];
             viewLine.backgroundColor = self.lineColor;
             [self.containerView addSubview:viewLine];
         }
