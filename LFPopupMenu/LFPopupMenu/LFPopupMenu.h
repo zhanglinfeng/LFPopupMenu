@@ -31,10 +31,11 @@
 @property (nonatomic, assign) CGFloat arrowH;//箭头形高,默认9
 @property (nonatomic, assign) CGFloat arrowW;//箭头形宽,默认9
 @property (nonatomic, assign) CGFloat popupMargin;//窗口距屏幕边缘最小距离，默认5
-@property (nonatomic, assign) CGFloat iconMargin;//图标和文字及窗口的距离，默认16
+@property (nonatomic, assign) CGFloat iconMargin;//图标和文字距窗口的距离，默认16
+@property (nonatomic, assign) CGFloat lineMargin;//分割线左边距，默认0
 @property (nonatomic, assign) CGFloat cornerRadius;//弹窗圆角,默认6
 @property (nonatomic, assign) CGFloat arrowCornerRadius;//箭头的圆角，默认0
-@property (nonatomic, strong) UIColor *lineColor;//分割线颜色，默认系统灰色
+@property (nonatomic, strong) UIColor *lineColor;//分割线颜色、边框色，默认系统灰色
 @property (nonatomic, strong) UIFont *textFont;//默认15
 @property (nonatomic, strong) UIColor *textColor;//默认黑色
 @property (nonatomic, strong) UIColor *fillColor;//带箭头框的填充色，默认白色

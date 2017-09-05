@@ -44,6 +44,7 @@
         self.arrowW = 9;
         self.popupMargin = 5;
         self.iconMargin = 16;
+        self.lineMargin = 0;
         self.cornerRadius = 6;
         self.lineColor = [UIColor grayColor];
         self.textFont = [UIFont systemFontOfSize:15];
@@ -92,7 +93,7 @@
         [self.containerView addSubview:bt];
         
         if (i > 0) {
-            UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, i*self.rowHeight, self.frame.size.width, 1.0f/[UIScreen mainScreen].scale)];
+            UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(self.lineMargin, i*self.rowHeight, self.frame.size.width, 1.0f/[UIScreen mainScreen].scale)];
             viewLine.backgroundColor = self.lineColor;
             [self.containerView addSubview:viewLine];
         }
