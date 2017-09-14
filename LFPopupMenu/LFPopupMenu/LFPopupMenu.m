@@ -43,7 +43,8 @@
         self.arrowH = 9;
         self.arrowW = 9;
         self.popupMargin = 5;
-        self.iconMargin = 16;
+        self.edgeMargin = 16;
+        self.textMargin = 8;
         self.lineMargin = 0;
         self.cornerRadius = 6;
         self.lineColor = [UIColor grayColor];
@@ -75,12 +76,12 @@
         LFPopupMenuItem *item = self.menuItems[i];
         CGFloat imgH = item.image.size.height;
         CGFloat imgW = item.image.size.width;
-        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(self.iconMargin, (self.rowHeight - imgH)/2 + self.rowHeight*i, imgW, imgH)];
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(self.edgeMargin, (self.rowHeight - imgH)/2 + self.rowHeight*i, imgW, imgH)];
         iv.image = item.image;
         [self.containerView addSubview:iv];
         
-        CGFloat lbX = imgW > 0 ? (self.iconMargin*2 + imgW) : self.iconMargin;
-        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(lbX, i*self.rowHeight, self.frame.size.width - lbX - self.iconMargin, self.rowHeight)];
+        CGFloat lbX = imgW > 0 ? (self.edgeMargin + imgW + self.textMargin) : self.edgeMargin;
+        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(lbX, i*self.rowHeight, self.frame.size.width - lbX - self.edgeMargin, self.rowHeight)];
         lb.textColor = self.textColor;
         lb.text = item.title;
         lb.font = [UIFont systemFontOfSize:15];
@@ -206,7 +207,7 @@
         
         imageW = imageW > item.image.size.width ? imageW : item.image.size.width;
     }
-    CGFloat totalMargin = (textW > 0 && imageW > 0) ? self.iconMargin * 3 : self.iconMargin * 2;
+    CGFloat totalMargin = (textW > 0 && imageW > 0) ? (self.edgeMargin * 2 + self.textMargin) : self.edgeMargin * 2;
     CGFloat totalWidth = textW + imageW + totalMargin;
     totalWidth = totalWidth > self.minWidth ? totalWidth : self.minWidth;
     self.frame = CGRectMake(0, 0, totalWidth, self.rowHeight * self.menuItems.count + self.arrowH);
