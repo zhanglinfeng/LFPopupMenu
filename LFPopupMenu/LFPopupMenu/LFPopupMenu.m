@@ -50,7 +50,7 @@
         self.textFont = [UIFont systemFontOfSize:15];
         self.textColor = [UIColor blackColor];
         self.fillColor = [UIColor whiteColor];
-        
+        self.direction = PopupMenuDirection_Auto;
         self.menuSuperView = [UIApplication sharedApplication].keyWindow;
         
         self.containerView = [[UIView alloc] init];
@@ -146,9 +146,16 @@
 }
 
 //显示菜单窗,无imgBG的情况下调用
-//之所以提取一个private_showArrowInPoint，是不想让showArrowInView调showArrowInPoint时，在showArrowInPoint方法中又给isUp赋值了，因为可能两次次判断得到的isUp结果不一致（比如当你的箭头指向的那个view与上下中线有交集时，两次给isUp赋值会不同）
+
 - (void)showArrowInPoint:(CGPoint)point {
-    self.isUp = point.y < self.maskView.frame.size.height/2;
+    if (self.direction == PopupMenuDirection_Up) {
+        self.isUp = YES;
+    } else if (self.direction == PopupMenuDirection_Down) {
+        self.isUp = NO;
+    } else {
+        self.isUp = point.y < self.maskView.frame.size.height/2;
+    }
+    
     [self private_showArrowInPoint:point];
 }
 
@@ -157,7 +164,14 @@
     CGRect pointViewRect = [view.superview convertRect:view.frame toView:self.menuSuperView];
     // 弹窗箭头指向的点
     CGPoint toPoint = CGPointMake(CGRectGetMidX(pointViewRect), 0);
-    self.isUp = CGRectGetMidY(pointViewRect) < self.menuSuperView.frame.size.height/2;
+    if (self.direction == PopupMenuDirection_Up) {
+        self.isUp = YES;
+    } else if (self.direction == PopupMenuDirection_Down) {
+        self.isUp = NO;
+    } else {
+        self.isUp = CGRectGetMidY(pointViewRect) < self.menuSuperView.frame.size.height/2;
+    }
+    
     if (self.isUp) {
         toPoint.y = CGRectGetMaxY(pointViewRect) + 2;
     } else {
@@ -193,7 +207,9 @@
         imageW = imageW > item.image.size.width ? imageW : item.image.size.width;
     }
     CGFloat totalMargin = (textW > 0 && imageW > 0) ? self.iconMargin * 3 : self.iconMargin * 2;
-    self.frame = CGRectMake(0, 0, textW + imageW + totalMargin, self.rowHeight * self.menuItems.count + self.arrowH);
+    CGFloat totalWidth = textW + imageW + totalMargin;
+    totalWidth = totalWidth > self.minWidth ? totalWidth : self.minWidth;
+    self.frame = CGRectMake(0, 0, totalWidth, self.rowHeight * self.menuItems.count + self.arrowH);
 }
 
 //私有的显示

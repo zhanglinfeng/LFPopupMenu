@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, PopupMenuDirection) {
+    PopupMenuDirection_Auto,    //箭头自动确定朝上还是下
+    PopupMenuDirection_Up,      //箭头朝上
+    PopupMenuDirection_Down     //箭头朝下
+};
+
 
 @interface LFPopupMenuItem : NSObject
 
@@ -30,6 +36,7 @@
 @property (nonatomic, assign) CGFloat rowHeight;//行高,默认60
 @property (nonatomic, assign) CGFloat arrowH;//箭头形高,默认9
 @property (nonatomic, assign) CGFloat arrowW;//箭头形宽,默认9
+@property (nonatomic, assign) CGFloat minWidth;//弹窗最小宽度，默认0
 @property (nonatomic, assign) CGFloat popupMargin;//窗口距屏幕边缘最小距离，默认5
 @property (nonatomic, assign) CGFloat iconMargin;//图标和文字距窗口的距离，默认16
 @property (nonatomic, assign) CGFloat lineMargin;//分割线左边距，默认0
@@ -43,6 +50,7 @@
 @property (nonatomic, assign) CGPoint anchorPoint;//设置背景图的情况使用，背景图的三角在背景图的位置比例，如左上角(0,0),右下角(1,1),下边中间(0.5,1)以此类推
 
 @property (nonatomic, strong) UIView *menuSuperView;//本菜单弹窗的父视图，默认在Window上
+@property (nonatomic, assign) PopupMenuDirection direction;
 
 @property (nonatomic, copy) void(^dismissComplete)();//消失的回调
 

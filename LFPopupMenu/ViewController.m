@@ -67,6 +67,8 @@
 - (IBAction)action3:(id)sender {
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.needBorder = YES;
+    menu.minWidth = 200;
+    menu.direction = PopupMenuDirection_Down;
     menu.dismissComplete = ^{
         NSLog(@"消失了");
     };
