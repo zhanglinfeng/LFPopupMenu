@@ -67,7 +67,8 @@
 - (IBAction)action3:(id)sender {
     LFPopupMenu *menu = [[LFPopupMenu alloc] init];
     menu.needBorder = YES;
-    menu.edgeMargin = 30;
+    menu.leftEdgeMargin = 10;
+    menu.rightEdgeMargin = 30;
     menu.textMargin = 4;
     menu.direction = PopupMenuDirection_Down;
     menu.dismissComplete = ^{

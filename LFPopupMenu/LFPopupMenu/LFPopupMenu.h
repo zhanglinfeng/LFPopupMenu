@@ -38,7 +38,8 @@ typedef NS_ENUM(NSInteger, PopupMenuDirection) {
 @property (nonatomic, assign) CGFloat arrowW;//箭头形宽,默认9
 @property (nonatomic, assign) CGFloat minWidth;//弹窗最小宽度，默认0
 @property (nonatomic, assign) CGFloat popupMargin;//窗口距屏幕边缘最小距离，默认5
-@property (nonatomic, assign) CGFloat edgeMargin;//图标和文字距窗口的距离，默认16
+@property (nonatomic, assign) CGFloat leftEdgeMargin;//左边距窗口的距离，默认16
+@property (nonatomic, assign) CGFloat rightEdgeMargin;//右边距窗口的距离，默认16
 @property (nonatomic, assign) CGFloat textMargin;//文字距图标的距离，默认8
 @property (nonatomic, assign) CGFloat lineMargin;//分割线左边距，默认0
 @property (nonatomic, assign) CGFloat cornerRadius;//弹窗圆角,默认6
